@@ -1,22 +1,41 @@
 #include <stdio.h>
 // #include <string.h>
-#include "raylib-6.0_linux_amd64/include/raylib.h"
+
+#ifdef _WIN32
+#include "raylib-6.0_win64_mingw-w64/include/raylib.h"
+#else
+#include "raylib-6.0_linux_amd64/4include/raylib.h"
+#endif
+
+
+#define WIN_SIZE 800
+#define GRID_SIZE 10
+#define CELL_PXSIZE 30
+#define LIVE_COLOR GRAY
+
+#define STARTPT (WIN_SIZE/2) - (CELL_PXSIZE*GRID_SIZE)/2
+
+
+
+
 
 int main() {
-    InitWindow(800,800, "hello, world");
+    InitWindow(WIN_SIZE,WIN_SIZE, "hello, world");
+    SetWindowState(FLAG_VSYNC_HINT); // limite 60 fps
     char s[] = "Congrats! You created your first window!";
-    int size = MeasureText(s, GetFontDefault().baseSize); 
-    
+    int size = MeasureText(s, GetFontDefault().baseSize);
+
     // return 0;
     while (!WindowShouldClose()) {
         BeginDrawing();
-        // ClearBackground(BLACK);
-        // DrawText(s, 800/2 - size/2 * 2, 800/2, 20, WHITE);
+        ClearBackground(BLACK);
+        DrawFPS(10, 10);
 
-        for (int i = 0; i < 4; i++) {
-                // RLAPI void DrawRectangle(int posX, int posY, int width, int height, Color color);                        // Draw a color-filled rectangle
-                // RLAPI void DrawRectangleLines(int posX, int posY, int width, int height, Color color);                   // Draw rectangle outline
-                DrawRectangleLines(800/2-100, 800/2 + i*20, 100, 20, WHITE);
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                DrawRectangleLines(STARTPT + i*CELL_PXSIZE, STARTPT + j*CELL_PXSIZE, CELL_PXSIZE, CELL_PXSIZE, WHITE);
+                if (i%2) DrawRectangle(STARTPT + i*CELL_PXSIZE, STARTPT + j*CELL_PXSIZE, CELL_PXSIZE, CELL_PXSIZE, WHITE);
+            }
         }
 
         // DrawGrid(10,10);
