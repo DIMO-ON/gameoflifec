@@ -48,7 +48,7 @@ int update_cellstate(int x, int y, int* stategrid, int* newstategrid) {
 		{ 1, 0}, // est
 		{ 1, 1}, // sud-est
 		{ 0, 1}, // sud
-		{-1, 1}, // sud-ovest
+		{ 1,-1}, // sud-ovest
 		{-1, 0}, // ovest
 		{-1,-1}, // nord-ovest
 		{ 0,-1}, // nord
@@ -81,9 +81,15 @@ int main() {
 	int *stategrid = calloc(sizeof(int), GRID_SIZE*GRID_SIZE);
 	int *newstategrid = calloc(sizeof(int), GRID_SIZE*GRID_SIZE);
 	// initiate state grid
+	stategrid[1*GRID_SIZE] = 1;
+	stategrid[2*GRID_SIZE] = 1;
+	stategrid[3*GRID_SIZE] = 1;
+	
 	stategrid[2*GRID_SIZE+GRID_SIZE/2] = 1;
 	stategrid[3*GRID_SIZE+GRID_SIZE/2] = 1;
-	stategrid[4*GRID_SIZE+GRID_SIZE/2] = 1;
+	stategrid[5*GRID_SIZE+GRID_SIZE/2] = 1;
+	stategrid[6*GRID_SIZE+GRID_SIZE/2] = 1;
+	stategrid[5*GRID_SIZE+GRID_SIZE/2+1] = 1;
 	
     InitWindow(WIN_SIZE,WIN_SIZE, "hello, world");
     SetWindowState(FLAG_VSYNC_HINT); // limite 60 fps
@@ -104,8 +110,7 @@ int main() {
 
         EndDrawing();
 
-		// if (!IsKeyPressed(KEY_SPACE)) continue;
-		if (IsKeyPressed(KEY_SPACE)) {
+		if (!IsKeyPressed(KEY_SPACE)) continue;
 
 		for (int i = 0; i < GRID_SIZE; i++) {
 			for (int j = 0; j < GRID_SIZE; j++) {
@@ -116,8 +121,6 @@ int main() {
 		int *tmp = stategrid;
 		stategrid = newstategrid;
 		newstategrid = tmp;
-		}
-		// memcpy(stategrid, newstategrid, GRID_SIZE * GRID_SIZE * sizeof(int));
     }
 
     return 0;
